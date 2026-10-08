@@ -1,0 +1,86 @@
+{
+  "title": "TMHF Final 21-Peptide Panel Clustering Specification",
+  "description": "Deterministic 7-cluster K-Means strategy on fixed regression Top400 candidates with 3-role extraction per cluster (medoid center, farthest boundary, lowest predicted MIC).",
+  "candidate_pool": "regression_top400",
+  "candidate_count": 400,
+  "input_source_file": "outputs/screening/stage4_regression_scores_top1000.csv",
+  "input_source_sha256": "8e5a29c2c85c8421c2c986bb237c759050df9143f658f380ee22dd3f840c458f",
+  "feature_representation": "generic",
+  "feature_dimension": 486,
+  "clustering_algorithm": "KMeans",
+  "algorithm_parameters": {
+    "n_clusters": 7,
+    "random_state": 328,
+    "n_init": 1,
+    "max_iter": 500
+  },
+  "distance_metric_for_roles_and_evaluation": "cosine",
+  "cluster_quality_metrics": {
+    "silhouette_score": 0.47357451915740967,
+    "naturality_score": 0.4472100868846337,
+    "cluster_sizes": [
+      105,
+      93,
+      12,
+      37,
+      61,
+      52,
+      40
+    ]
+  },
+  "selection_roles_per_cluster": [
+    {
+      "role": "cluster_center",
+      "definition": "Medoid candidate minimizing average distance to all cluster members"
+    },
+    {
+      "role": "cluster_boundary",
+      "definition": "Candidate with maximum distance to the cluster medoid"
+    },
+    {
+      "role": "cluster_regression_best",
+      "definition": "Candidate with minimum predicted log2(MIC) within the cluster"
+    }
+  ],
+  "target_hit_audit": {
+    "targets_used_in_clustering": false,
+    "post_hoc_hits": {
+      "AFP14 (LRLRRVVLRLRRVV)": {
+        "cluster_id": 3,
+        "role": "cluster_boundary",
+        "pred_mic_um": 9.894909,
+        "distance_to_center": 0.2898721992969513
+      },
+      "AFP18 (VRVVRVRVRVVRVR)": {
+        "cluster_id": 5,
+        "role": "cluster_boundary",
+        "pred_mic_um": 4.6791444,
+        "distance_to_center": 0.4198853075504303
+      },
+      "AFP20 (LRLLRLRLRLLRLR)": {
+        "cluster_id": 2,
+        "role": "cluster_boundary",
+        "pred_mic_um": 8.232428,
+        "distance_to_center": 0.398267924785614
+      }
+    },
+    "target_all_present": true
+  },
+  "archived_data_files": {
+    "final_selected_21_peptides.csv": {
+      "path": "data/final_selected_21_peptides.csv",
+      "sha256": "a6a1d6ed6ae3d75878dc630d48152ae44ebd0202678f56b981b4bb2f7df7d651",
+      "rows": 21
+    },
+    "top400_cluster_assignments_final.csv": {
+      "path": "data/top400_cluster_assignments_final.csv",
+      "sha256": "dcd44d101016cc6fcff7fa5066aac1b4734158f39136f10fd45269fb616028b9",
+      "rows": 400
+    },
+    "cluster_summary_final.csv": {
+      "path": "data/cluster_summary_final.csv",
+      "sha256": "fb8ef1adc49367cd83f59621a9ac5cebb45c06a130a39ca336c53edb3c454f07",
+      "rows": 7
+    }
+  }
+}

@@ -1,0 +1,8 @@
+# Prepared training archives use ordinary Git; large data stays external.
+*.py text eol=lf
+*.md text eol=lf
+*.json text eol=lf
+*.csv text eol=lf
+*.npz binary
+*.npy binary
+*.zip binary

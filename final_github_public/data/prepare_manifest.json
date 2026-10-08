@@ -1,0 +1,269 @@
+{
+  "prepared": true,
+  "source_root": "source_workspace",
+  "paper_training": {
+    "rows": 1965,
+    "features": 829,
+    "source_raw": "code/archive/ai4food+alphafold-0910/data/data-20240502-final.csv",
+    "source_embeddings": "ai4food/data/embeddings_dict.npy"
+  },
+  "regression_training": {
+    "rows": 1871,
+    "features": 1745,
+    "context_features": 394,
+    "secondary_features": 36,
+    "generic_features": 486,
+    "split": {
+      "method": "exact_deterministic_stratified_80_20",
+      "train_rows": 1497,
+      "test_selection_rows": 374,
+      "train_fraction": 0.8001068947087119,
+      "test_selection_fraction": 0.1998931052912881,
+      "sequence_overlap": 0,
+      "allocation": [
+        {
+          "mic_bin": "(-9.700999999999999, 0.678]",
+          "length_bin": "(2.999, 13.0]",
+          "rows": 48,
+          "test_rows": 10
+        },
+        {
+          "mic_bin": "(-9.700999999999999, 0.678]",
+          "length_bin": "(13.0, 18.0]",
+          "rows": 67,
+          "test_rows": 13
+        },
+        {
+          "mic_bin": "(-9.700999999999999, 0.678]",
+          "length_bin": "(18.0, 24.0]",
+          "rows": 63,
+          "test_rows": 13
+        },
+        {
+          "mic_bin": "(-9.700999999999999, 0.678]",
+          "length_bin": "(24.0, 76.0]",
+          "rows": 57,
+          "test_rows": 11
+        },
+        {
+          "mic_bin": "(0.678, 1.908]",
+          "length_bin": "(2.999, 13.0]",
+          "rows": 49,
+          "test_rows": 10
+        },
+        {
+          "mic_bin": "(0.678, 1.908]",
+          "length_bin": "(13.0, 18.0]",
+          "rows": 53,
+          "test_rows": 11
+        },
+        {
+          "mic_bin": "(0.678, 1.908]",
+          "length_bin": "(18.0, 24.0]",
+          "rows": 80,
+          "test_rows": 16
+        },
+        {
+          "mic_bin": "(0.678, 1.908]",
+          "length_bin": "(24.0, 76.0]",
+          "rows": 51,
+          "test_rows": 10
+        },
+        {
+          "mic_bin": "(1.908, 2.818]",
+          "length_bin": "(2.999, 13.0]",
+          "rows": 82,
+          "test_rows": 16
+        },
+        {
+          "mic_bin": "(1.908, 2.818]",
+          "length_bin": "(13.0, 18.0]",
+          "rows": 60,
+          "test_rows": 12
+        },
+        {
+          "mic_bin": "(1.908, 2.818]",
+          "length_bin": "(18.0, 24.0]",
+          "rows": 57,
+          "test_rows": 11
+        },
+        {
+          "mic_bin": "(1.908, 2.818]",
+          "length_bin": "(24.0, 76.0]",
+          "rows": 35,
+          "test_rows": 7
+        },
+        {
+          "mic_bin": "(2.818, 3.644]",
+          "length_bin": "(2.999, 13.0]",
+          "rows": 78,
+          "test_rows": 16
+        },
+        {
+          "mic_bin": "(2.818, 3.644]",
+          "length_bin": "(13.0, 18.0]",
+          "rows": 76,
+          "test_rows": 15
+        },
+        {
+          "mic_bin": "(2.818, 3.644]",
+          "length_bin": "(18.0, 24.0]",
+          "rows": 63,
+          "test_rows": 13
+        },
+        {
+          "mic_bin": "(2.818, 3.644]",
+          "length_bin": "(24.0, 76.0]",
+          "rows": 33,
+          "test_rows": 7
+        },
+        {
+          "mic_bin": "(3.644, 4.644]",
+          "length_bin": "(2.999, 13.0]",
+          "rows": 93,
+          "test_rows": 19
+        },
+        {
+          "mic_bin": "(3.644, 4.644]",
+          "length_bin": "(13.0, 18.0]",
+          "rows": 65,
+          "test_rows": 13
+        },
+        {
+          "mic_bin": "(3.644, 4.644]",
+          "length_bin": "(18.0, 24.0]",
+          "rows": 63,
+          "test_rows": 13
+        },
+        {
+          "mic_bin": "(3.644, 4.644]",
+          "length_bin": "(24.0, 76.0]",
+          "rows": 43,
+          "test_rows": 9
+        },
+        {
+          "mic_bin": "(4.644, 5.567]",
+          "length_bin": "(2.999, 13.0]",
+          "rows": 52,
+          "test_rows": 10
+        },
+        {
+          "mic_bin": "(4.644, 5.567]",
+          "length_bin": "(13.0, 18.0]",
+          "rows": 50,
+          "test_rows": 10
+        },
+        {
+          "mic_bin": "(4.644, 5.567]",
+          "length_bin": "(18.0, 24.0]",
+          "rows": 51,
+          "test_rows": 10
+        },
+        {
+          "mic_bin": "(4.644, 5.567]",
+          "length_bin": "(24.0, 76.0]",
+          "rows": 35,
+          "test_rows": 7
+        },
+        {
+          "mic_bin": "(5.567, 6.644]",
+          "length_bin": "(2.999, 13.0]",
+          "rows": 59,
+          "test_rows": 12
+        },
+        {
+          "mic_bin": "(5.567, 6.644]",
+          "length_bin": "(13.0, 18.0]",
+          "rows": 62,
+          "test_rows": 12
+        },
+        {
+          "mic_bin": "(5.567, 6.644]",
+          "length_bin": "(18.0, 24.0]",
+          "rows": 72,
+          "test_rows": 14
+        },
+        {
+          "mic_bin": "(5.567, 6.644]",
+          "length_bin": "(24.0, 76.0]",
+          "rows": 82,
+          "test_rows": 16
+        },
+        {
+          "mic_bin": "(6.644, 8.0]",
+          "length_bin": "(2.999, 13.0]",
+          "rows": 87,
+          "test_rows": 17
+        },
+        {
+          "mic_bin": "(6.644, 8.0]",
+          "length_bin": "(13.0, 18.0]",
+          "rows": 44,
+          "test_rows": 9
+        },
+        {
+          "mic_bin": "(6.644, 8.0]",
+          "length_bin": "(18.0, 24.0]",
+          "rows": 36,
+          "test_rows": 7
+        },
+        {
+          "mic_bin": "(6.644, 8.0]",
+          "length_bin": "(24.0, 76.0]",
+          "rows": 25,
+          "test_rows": 5
+        }
+      ],
+      "test_used_for_model_selection": true
+    }
+  },
+  "candidate_feature_matrix": {
+    "mode": "existing",
+    "rows": 2450854,
+    "columns": 829,
+    "sha256": "0ae44568fedb251c0e600ea9716226db11420fa6dbcfb9e9dca2ecee1c88a6fd"
+  },
+  "expected_prescreen": {
+    "rows": 2450854,
+    "sha256": "e6c03962d38b47369b8feace05097d9deb782b4598272b8adf19618390bc2f24"
+  },
+  "expected_top1000_sha256": "386cbc6df36a4584dacf104151b7af84331feb42a4ded2e2f1f32019444d2c75",
+  "files": {
+    "data/classification_config.json": {
+      "bytes": 751,
+      "sha256": "90648b0d172e2441f140c96655bd1672a14a65d28d280a0ac46788577a35eb45"
+    },
+    "data/feature_columns.json": {
+      "bytes": 23856,
+      "sha256": "ae3e53f54c7e8eac1729728535712d93807acaa3a6eca8538bfcc18b733938e0"
+    },
+    "data/prepared/candidate_feature_matrix.npy": {
+      "bytes": 8127031992,
+      "sha256": "0ae44568fedb251c0e600ea9716226db11420fa6dbcfb9e9dca2ecee1c88a6fd"
+    },
+    "data/prepared/paper_training.npz": {
+      "bytes": 5933274,
+      "sha256": "cec7683c8110ace4b4c5108fafe26952b8423a21567329701e5c772ac13c795f"
+    },
+    "data/prepared/ranking_anchor_features.npz": {
+      "bytes": 18723,
+      "sha256": "eff335fa484da59b5c2087e1e5a81fbd94184d48da2bd80f6ee36e7655dd68dd"
+    },
+    "data/prepared/regression_training.npz": {
+      "bytes": 6032502,
+      "sha256": "ab4cadb978b693bf886275b8594a036b1b245efc06699242d78b8ea8ee1b6753"
+    },
+    "data/reference/expected_top1000.csv": {
+      "bytes": 140690,
+      "sha256": "386cbc6df36a4584dacf104151b7af84331feb42a4ded2e2f1f32019444d2c75"
+    },
+    "data/regression_config.json": {
+      "bytes": 6506,
+      "sha256": "2b7b0481e46b578bf719c8a47b9f8c2e026a12418d63cb70d4a0f165d976122c"
+    },
+    "data/reference/regression_top1000.csv": {
+      "bytes": 163863,
+      "sha256": "8e5a29c2c85c8421c2c986bb237c759050df9143f658f380ee22dd3f840c458f"
+    }
+  }
+}

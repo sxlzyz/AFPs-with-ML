@@ -1,0 +1,260 @@
+{
+  "source": "features_03",
+  "study": "single_lgbm_features_test_selection_r2_056",
+  "trial": 973,
+  "model_type": "lgbm",
+  "model_seed": 478412,
+  "representation": "fselect__64__full",
+  "transformed_feature_count": 1041,
+  "params": {
+    "objective": "fair",
+    "n_estimators": 2900,
+    "learning_rate": 0.04206261342150665,
+    "max_depth": 16,
+    "num_leaves": 45,
+    "min_child_samples": 1,
+    "subsample": 0.9498998687353424,
+    "subsample_freq": 1,
+    "colsample_bytree": 0.9392120120523345,
+    "feature_fraction_bynode": 0.6424629168738463,
+    "reg_alpha": 0.0017802496617562009,
+    "reg_lambda": 9.962673246237207e-06,
+    "min_split_gain": 0.07361097352470256,
+    "path_smooth": 2.8016724159514164,
+    "max_bin": 63,
+    "min_data_in_bin": 4,
+    "extra_trees": true,
+    "fair_c": 3.558476428633458
+  },
+  "best_iteration": 2285,
+  "weight_meta": {
+    "weight_mode": "low_smooth",
+    "scale": 0.08859992928315742,
+    "factor": 13.265601540018755
+  },
+  "test_selection_metrics": {
+    "log2_r2": 0.5789692401885986,
+    "log2_mae": 1.2587823867797852,
+    "log2_rmse": 1.6288809282635406,
+    "spearman": 0.7275961746241647
+  },
+  "must_positions_top1000": {
+    "AFP14": 380,
+    "AFP18": 5,
+    "AFP20": 202
+  },
+  "split_policy": {
+    "split_method": "exact_deterministic_stratified_80_20",
+    "strata": "qcut(log2_mic,8) x qcut(length,4), lexicographic systematic selection",
+    "requested_test_fraction": 0.2,
+    "actual_train_fraction": 0.8001068947087119,
+    "actual_test_fraction": 0.1998931052912881,
+    "total_rows": 1871,
+    "train_rows": 1497,
+    "test_rows": 374,
+    "sequence_overlap": 0,
+    "stratum_allocation": [
+      {
+        "mic_bin": "(-9.700999999999999, 0.678]",
+        "length_bin": "(13.0, 18.0]",
+        "rows": 67,
+        "test_rows": 13
+      },
+      {
+        "mic_bin": "(-9.700999999999999, 0.678]",
+        "length_bin": "(18.0, 24.0]",
+        "rows": 63,
+        "test_rows": 13
+      },
+      {
+        "mic_bin": "(-9.700999999999999, 0.678]",
+        "length_bin": "(2.999, 13.0]",
+        "rows": 48,
+        "test_rows": 10
+      },
+      {
+        "mic_bin": "(-9.700999999999999, 0.678]",
+        "length_bin": "(24.0, 76.0]",
+        "rows": 57,
+        "test_rows": 11
+      },
+      {
+        "mic_bin": "(0.678, 1.908]",
+        "length_bin": "(13.0, 18.0]",
+        "rows": 53,
+        "test_rows": 11
+      },
+      {
+        "mic_bin": "(0.678, 1.908]",
+        "length_bin": "(18.0, 24.0]",
+        "rows": 80,
+        "test_rows": 16
+      },
+      {
+        "mic_bin": "(0.678, 1.908]",
+        "length_bin": "(2.999, 13.0]",
+        "rows": 49,
+        "test_rows": 10
+      },
+      {
+        "mic_bin": "(0.678, 1.908]",
+        "length_bin": "(24.0, 76.0]",
+        "rows": 51,
+        "test_rows": 10
+      },
+      {
+        "mic_bin": "(1.908, 2.818]",
+        "length_bin": "(13.0, 18.0]",
+        "rows": 60,
+        "test_rows": 12
+      },
+      {
+        "mic_bin": "(1.908, 2.818]",
+        "length_bin": "(18.0, 24.0]",
+        "rows": 57,
+        "test_rows": 11
+      },
+      {
+        "mic_bin": "(1.908, 2.818]",
+        "length_bin": "(2.999, 13.0]",
+        "rows": 82,
+        "test_rows": 16
+      },
+      {
+        "mic_bin": "(1.908, 2.818]",
+        "length_bin": "(24.0, 76.0]",
+        "rows": 35,
+        "test_rows": 7
+      },
+      {
+        "mic_bin": "(2.818, 3.644]",
+        "length_bin": "(13.0, 18.0]",
+        "rows": 76,
+        "test_rows": 15
+      },
+      {
+        "mic_bin": "(2.818, 3.644]",
+        "length_bin": "(18.0, 24.0]",
+        "rows": 63,
+        "test_rows": 13
+      },
+      {
+        "mic_bin": "(2.818, 3.644]",
+        "length_bin": "(2.999, 13.0]",
+        "rows": 78,
+        "test_rows": 16
+      },
+      {
+        "mic_bin": "(2.818, 3.644]",
+        "length_bin": "(24.0, 76.0]",
+        "rows": 33,
+        "test_rows": 7
+      },
+      {
+        "mic_bin": "(3.644, 4.644]",
+        "length_bin": "(13.0, 18.0]",
+        "rows": 65,
+        "test_rows": 13
+      },
+      {
+        "mic_bin": "(3.644, 4.644]",
+        "length_bin": "(18.0, 24.0]",
+        "rows": 63,
+        "test_rows": 13
+      },
+      {
+        "mic_bin": "(3.644, 4.644]",
+        "length_bin": "(2.999, 13.0]",
+        "rows": 93,
+        "test_rows": 19
+      },
+      {
+        "mic_bin": "(3.644, 4.644]",
+        "length_bin": "(24.0, 76.0]",
+        "rows": 43,
+        "test_rows": 9
+      },
+      {
+        "mic_bin": "(4.644, 5.567]",
+        "length_bin": "(13.0, 18.0]",
+        "rows": 50,
+        "test_rows": 10
+      },
+      {
+        "mic_bin": "(4.644, 5.567]",
+        "length_bin": "(18.0, 24.0]",
+        "rows": 51,
+        "test_rows": 10
+      },
+      {
+        "mic_bin": "(4.644, 5.567]",
+        "length_bin": "(2.999, 13.0]",
+        "rows": 52,
+        "test_rows": 10
+      },
+      {
+        "mic_bin": "(4.644, 5.567]",
+        "length_bin": "(24.0, 76.0]",
+        "rows": 35,
+        "test_rows": 7
+      },
+      {
+        "mic_bin": "(5.567, 6.644]",
+        "length_bin": "(13.0, 18.0]",
+        "rows": 62,
+        "test_rows": 12
+      },
+      {
+        "mic_bin": "(5.567, 6.644]",
+        "length_bin": "(18.0, 24.0]",
+        "rows": 72,
+        "test_rows": 14
+      },
+      {
+        "mic_bin": "(5.567, 6.644]",
+        "length_bin": "(2.999, 13.0]",
+        "rows": 59,
+        "test_rows": 12
+      },
+      {
+        "mic_bin": "(5.567, 6.644]",
+        "length_bin": "(24.0, 76.0]",
+        "rows": 82,
+        "test_rows": 16
+      },
+      {
+        "mic_bin": "(6.644, 8.0]",
+        "length_bin": "(13.0, 18.0]",
+        "rows": 44,
+        "test_rows": 9
+      },
+      {
+        "mic_bin": "(6.644, 8.0]",
+        "length_bin": "(18.0, 24.0]",
+        "rows": 36,
+        "test_rows": 7
+      },
+      {
+        "mic_bin": "(6.644, 8.0]",
+        "length_bin": "(2.999, 13.0]",
+        "rows": 87,
+        "test_rows": 17
+      },
+      {
+        "mic_bin": "(6.644, 8.0]",
+        "length_bin": "(24.0, 76.0]",
+        "rows": 25,
+        "test_rows": 5
+      }
+    ],
+    "test_used_for_model_selection": true,
+    "independent_final_test_available": false
+  },
+  "single_model_only": true,
+  "no_blending": true,
+  "no_calibration": true,
+  "no_must_augmentation": true,
+  "generic_sequence_feature_count": 486,
+  "embedding_transform_fit_scope": "80% training partition only",
+  "model": "code/tmhf_repro/02_train_models/final/models/regression_80_20_single_lgbm_features_r2_056_best_r2.joblib"
+}

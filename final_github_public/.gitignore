@@ -1,0 +1,29 @@
+__pycache__/
+*.py[cod]
+.venv/
+outputs/*
+!outputs/.gitkeep
+
+# Distributed separately; too large for ordinary Git storage.
+/data/prepared/candidate_feature_matrix.npy
+/data/external/
+
+# Local tooling and credentials.
+.pytest_cache/
+.DS_Store
+.env
+.env.*
+!.env.example
+
+# Local agent/browser sessions, editor files, and credentials.
+.playwright-cli/
+.superpowers/
+.claude/
+.codex/
+.vscode/
+.idea/
+*.log
+*.pid
+*.pem
+*.key
+.ipynb_checkpoints/
