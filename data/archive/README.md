@@ -15,3 +15,6 @@ independent parameter-selection study.
 The `reference/` tables allow inspecting prior rankings and exercising the
 selection step without training. The input data and historical code are also
 available in Git history at commit `a4055c9`.
+
+See the [data inventory](../README.md) for supplementary datasets and
+`supplementary_manifest.json` for published-file checksums and source mappings.

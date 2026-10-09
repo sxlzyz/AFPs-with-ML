@@ -1,0 +1,37 @@
+feature_order,feature_name,definition,used_in
+1,ss__has_structure,Indicator that an AlphaFold2 structure with DSSP output was available.,Regression only
+2,ss__length,Number of residues represented in the DSSP output.,Regression only
+3,ss__frac_H,Fraction of residues in the DSSP H (alpha helix) state.,Regression only
+4,ss__frac_B,Fraction of residues in the DSSP B (isolated beta bridge) state.,Regression only
+5,ss__frac_E,Fraction of residues in the DSSP E (extended beta strand) state.,Regression only
+6,ss__frac_G,Fraction of residues in the DSSP G (3-10 helix) state.,Regression only
+7,ss__frac_I,Fraction of residues in the DSSP I (pi helix) state.,Regression only
+8,ss__frac_T,Fraction of residues in the DSSP T (hydrogen-bonded turn) state.,Regression only
+9,ss__frac_S,Fraction of residues in the DSSP S (bend) state.,Regression only
+10,ss__frac_P,Fraction of residues in the DSSP P (polyproline-II conformation) state.,Regression only
+11,ss__frac_coil,Fraction of residues in the DSSP coil (unassigned/coil) state.,Regression only
+12,ss__helix_frac,"Fraction of residues assigned to H, G or I helix states.",Regression only
+13,ss__sheet_frac,Fraction of residues assigned to E or B beta states.,Regression only
+14,ss__turn_bend_frac,Fraction of residues assigned to T or S turn/bend states.,Regression only
+15,ss__coil_group_frac,Fraction of residues assigned to coil or P states.,Regression only
+16,ss__max_helix_run,"Maximum consecutive run of H, G or I helix-state residues.",Regression only
+17,ss__max_sheet_run,Maximum consecutive run of E or B beta-state residues.,Regression only
+18,ss__max_coil_run,Maximum consecutive run of coil or P-state residues.,Regression only
+19,ss__accessibility_mean,mean of DSSP residue accessibility across residues.,Regression only
+20,ss__accessibility_std,std of DSSP residue accessibility across residues.,Regression only
+21,ss__accessibility_min,min of DSSP residue accessibility across residues.,Regression only
+22,ss__accessibility_max,max of DSSP residue accessibility across residues.,Regression only
+23,ss__NH_O_1_mean,mean of DSSP first NH-to-O hydrogen-bond value across residues.,Regression only
+24,ss__NH_O_1_std,std of DSSP first NH-to-O hydrogen-bond value across residues.,Regression only
+25,ss__NH_O_1_min,min of DSSP first NH-to-O hydrogen-bond value across residues.,Regression only
+26,ss__NH_O_1_max,max of DSSP first NH-to-O hydrogen-bond value across residues.,Regression only
+27,ss__O_HN_1_mean,mean of DSSP first O-to-HN hydrogen-bond value across residues.,Regression only
+28,ss__O_HN_1_std,std of DSSP first O-to-HN hydrogen-bond value across residues.,Regression only
+29,ss__O_HN_1_min,min of DSSP first O-to-HN hydrogen-bond value across residues.,Regression only
+30,ss__O_HN_1_max,max of DSSP first O-to-HN hydrogen-bond value across residues.,Regression only
+31,ss__phi_sin_mean,Mean sine of valid DSSP phi backbone angles.,Regression only
+32,ss__phi_cos_mean,Mean cosine of valid DSSP phi backbone angles.,Regression only
+33,ss__phi_valid_frac,Fraction of residues with a valid DSSP phi angle.,Regression only
+34,ss__psi_sin_mean,Mean sine of valid DSSP psi backbone angles.,Regression only
+35,ss__psi_cos_mean,Mean cosine of valid DSSP psi backbone angles.,Regression only
+36,ss__psi_valid_frac,Fraction of residues with a valid DSSP psi angle.,Regression only

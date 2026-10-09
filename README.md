@@ -93,6 +93,12 @@ the lowest predicted MIC. The same peptide may fill multiple roles, so the numbe
 of unique peptides can be less than 21 and is reported explicitly. The regression
 Top20 and the cluster representatives are separate outputs.
 
+## Data inventory
+
+See the [data directory](data/README.md) for descriptive filenames, supplementary
+dataset mappings, and checksums. Historical data are kept under `data/archive/`;
+large feature matrices remain excluded from Git.
+
 ## Data preparation
 
 Prepared training inputs are already supplied. Maintainers with the original

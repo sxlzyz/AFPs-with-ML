@@ -1,0 +1,72 @@
+model_stage,component,parameter,value,source
+Classifier,labels,positive_threshold_mic_um,2,classification_config.json
+Classifier,split,test_fraction,0.2,code/02_train.py
+Classifier,split,stratified,False,code/02_train.py
+Classifier,split,random_state,4252754,classification_config.json
+Classifier,model,random_state,7603948,classification_config.json
+Classifier,model,max_depth,7,classification_config.json
+Classifier,model,num_leaves,40,classification_config.json
+Classifier,model,learning_rate,0.02,classification_config.json
+Classifier,model,n_estimators,100,classification_config.json
+Classifier,model,min_child_samples,30,classification_config.json
+Classifier,model,subsample,0.8,classification_config.json
+Classifier,model,colsample_bytree,0.8,classification_config.json
+Classifier,model,reg_lambda,1,classification_config.json
+Classifier,model,class_weight,"{""0"":1,""1"":18}",classification_config.json
+Pairwise ranker,model,training_record_mic_threshold_um,8.0,code/02_train.py
+Pairwise ranker,model,present_anchor_sequences,6,code/02_train.py
+Pairwise ranker,model,replicates_per_anchor,50,code/02_train.py
+Pairwise ranker,model,anchor_assigned_mic_um,0.01,code/02_train.py
+Pairwise ranker,model,generated_pair_count,406351,code/02_train.py
+Pairwise ranker,model,pair_feature_dimension,3316,code/02_train.py
+Pairwise ranker,model,pair_features,"a,b,a-b,a/(b+1e-6)",code/02_train.py
+Pairwise ranker,split,test_fraction,0.2,code/02_train.py
+Pairwise ranker,split,stratified_split,True,code/02_train.py
+Pairwise ranker,split,split_random_state,42,code/02_train.py
+Pairwise ranker,model,scaler,StandardScaler,code/02_train.py
+Pairwise ranker,model,objective,multi:softmax,code/02_train.py
+Pairwise ranker,model,num_class,3,code/02_train.py
+Pairwise ranker,model,tree_method,hist,code/02_train.py
+Pairwise ranker,model,device,cuda:1,code/02_train.py
+Pairwise ranker,model,max_depth,6,code/02_train.py
+Pairwise ranker,model,min_child_weight,1,code/02_train.py
+Pairwise ranker,model,subsample,0.8,code/02_train.py
+Pairwise ranker,model,colsample_bytree,0.8,code/02_train.py
+Pairwise ranker,model,learning_rate,0.1,code/02_train.py
+Pairwise ranker,model,gamma,0.1,code/02_train.py
+Pairwise ranker,model,reg_lambda,1.0,code/02_train.py
+Pairwise ranker,model,reg_alpha,0.0,code/02_train.py
+Pairwise ranker,model,n_estimators,700,code/02_train.py
+Pairwise ranker,model,n_jobs,-1,code/02_train.py
+Pairwise ranker,model,random_state,42,code/02_train.py
+Regressor,split,method,exact_deterministic_stratified_80_20,regression_config.json
+Regressor,split,strata,"qcut(log2_mic,8) x qcut(length,4), lexicographic systematic selection",regression_config.json
+Regressor,split,train_rows,1497,regression_config.json
+Regressor,split,model_selection_rows,374,regression_config.json
+Regressor,model,random_state,478412,regression_config.json
+Regressor,model,early_stopping_rounds,180,code/02_train.py
+Regressor,model,n_jobs,1,code/02_train.py
+Regressor,model,force_col_wise,True,code/02_train.py
+Regressor,preprocessing,proteinbert_training_only_selection,64,code/02_train.py
+Regressor,sample_weight,formula,1 + factor * exp(-scale * log2_mic),code/02_train.py
+Regressor,model,objective,fair,regression_config.json
+Regressor,model,n_estimators,2900,regression_config.json
+Regressor,model,learning_rate,0.04206261342150665,regression_config.json
+Regressor,model,max_depth,16,regression_config.json
+Regressor,model,num_leaves,45,regression_config.json
+Regressor,model,min_child_samples,1,regression_config.json
+Regressor,model,subsample,0.9498998687353424,regression_config.json
+Regressor,model,subsample_freq,1,regression_config.json
+Regressor,model,colsample_bytree,0.9392120120523345,regression_config.json
+Regressor,model,feature_fraction_bynode,0.6424629168738463,regression_config.json
+Regressor,model,reg_alpha,0.0017802496617562009,regression_config.json
+Regressor,model,reg_lambda,9.962673246237207e-06,regression_config.json
+Regressor,model,min_split_gain,0.07361097352470256,regression_config.json
+Regressor,model,path_smooth,2.8016724159514164,regression_config.json
+Regressor,model,max_bin,63,regression_config.json
+Regressor,model,min_data_in_bin,4,regression_config.json
+Regressor,model,extra_trees,True,regression_config.json
+Regressor,model,fair_c,3.558476428633458,regression_config.json
+Regressor,sample_weight,weight_mode,low_smooth,regression_config.json
+Regressor,sample_weight,scale,0.08859992928315742,regression_config.json
+Regressor,sample_weight,factor,13.265601540018755,regression_config.json

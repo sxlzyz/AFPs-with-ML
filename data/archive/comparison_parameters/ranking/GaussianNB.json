@@ -1,0 +1,13 @@
+{
+  "stage": "ranking",
+  "model": "GaussianNB",
+  "precision": 0.69097471637592,
+  "recall": 0.6274193746846969,
+  "f1": 0.6111267349469478,
+  "elapsed_seconds": 7.558802135987207,
+  "params": {
+    "priors": null,
+    "var_smoothing": 1e-09
+  },
+  "scaler": null
+}

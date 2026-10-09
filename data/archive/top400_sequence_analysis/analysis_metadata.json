@@ -1,0 +1,23 @@
+{
+  "candidate_count": 400,
+  "reference_count": 188,
+  "reference_definition": "unique sequences in curated paper_training.npz with MIC <= 2 uM (includes both fixed partitions)",
+  "candidate_definition": "regression Top400, identical to SI clustering pool",
+  "identity_definition": "maximum over all positive references of exact matches / total global alignment columns including gaps * 100",
+  "alignment": "Needleman-Wunsch; match +1, mismatch -1, linear gap -1 including terminal gaps; traceback ties diagonal/up/left",
+  "historical_alignment_parameters_recovered": false,
+  "min_identity_percent": 35.294117647058826,
+  "median_identity_percent": 50.0,
+  "max_identity_percent": 68.42105263157895,
+  "count_below_30_percent": 0,
+  "exact_sequence_overlap": 0,
+  "property_source": "code/tmhf_repro/features.py::base_physicochemical_features",
+  "property_notes": "h = negative mean Kyte-Doolittle; i = normalized hydrophobic moment at 100 degrees per residue; k = mean Kyte-Doolittle, not physical penetration depth; charge at pH7; pI via zero-charge bisection",
+  "validated_pair_count": 75200,
+  "historical_source_sha256": {
+    "data/top400_cluster_assignments_final.csv": "dcd44d101016cc6fcff7fa5066aac1b4734158f39136f10fd45269fb616028b9",
+    "data/prepared/paper_training.npz": "cec7683c8110ace4b4c5108fafe26952b8423a21567329701e5c772ac13c795f",
+    "code/tmhf_repro/features.py": "f7e24be22c1dd0c5916e6fd8dae33f8dfd10e4da840cfed7fc3b4a59ea4c16d8",
+    "code/12_refresh_candidate_panels.py": "2befbb89a0e7e1114ca3dadfa3ab488a30efef05c4477efa2967337126fe96db"
+  }
+}

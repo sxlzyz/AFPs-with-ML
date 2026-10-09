@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "top400_matches_clustering_table": true,
+  "same_groups_in_f_to_l": true,
+  "positive_references": 188,
+  "candidates": 400,
+  "pairwise_alignments": 75200,
+  "all_g_values_are_pairwise_maxima": true,
+  "composition_percentages_sum_to_100": true,
+  "source_hashes_verified": true
+}

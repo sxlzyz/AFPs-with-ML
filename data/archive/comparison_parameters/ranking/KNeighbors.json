@@ -1,0 +1,16 @@
+{
+  "stage": "ranking",
+  "model": "KNeighbors",
+  "precision": 0.8408615342099569,
+  "recall": 0.8382817979353029,
+  "f1": 0.839298974053913,
+  "elapsed_seconds": 215.37424345797626,
+  "params": {
+    "n_neighbors": 5,
+    "weights": "uniform",
+    "metric": "euclidean"
+  },
+  "implementation": "GPU float64 exact-distance 5-NN; 32 predictions checked with sklearn",
+  "training_features": "scaled.npy indexed by partition.npz/train_indices",
+  "input_feature_count": 3316
+}

@@ -1,0 +1,10 @@
+{
+  "train_rows": 1572,
+  "evaluation_rows": 393,
+  "features": 829,
+  "train_indices_sha256": "1d1532ed34be5b31271cedec80f6651f1a1cedb441f0ebaa22da622c5ed041c7",
+  "evaluation_indices_sha256": "8dba50b9e22fcf21f0d60d55b1cdd9c8b31616c3364971d73edcdbeb86124074",
+  "label_sha256": "3bc760482d2a3bea2a6456d1d4de9eebbf0a49b6cc7f800cdd274e0d6e4a37a7",
+  "evaluation_role": "model-selection",
+  "no_retuning": true
+}

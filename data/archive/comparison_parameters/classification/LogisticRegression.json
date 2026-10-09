@@ -1,0 +1,28 @@
+{
+  "stage": "classification",
+  "model": "LogisticRegression",
+  "precision": 0.8476235892071886,
+  "recall": 0.8269720101781171,
+  "f1": 0.8361911723039146,
+  "elapsed_seconds": 0.051493884006049484,
+  "params": {
+    "C": 1.0,
+    "class_weight": "balanced",
+    "dual": false,
+    "fit_intercept": true,
+    "intercept_scaling": 1,
+    "l1_ratio": 0.0,
+    "max_iter": 2000,
+    "n_jobs": null,
+    "penalty": "deprecated",
+    "random_state": null,
+    "solver": "lbfgs",
+    "tol": 0.0001,
+    "verbose": 0,
+    "warm_start": false
+  },
+  "scaler": "StandardScaler",
+  "roc_auc": 0.7802536231884059,
+  "average_precision": 0.37341810978359735,
+  "input_feature_count": 829
+}

@@ -1,0 +1,22 @@
+{
+  "stage": "classification",
+  "model": "KNeighbors",
+  "precision": 0.8439646317146368,
+  "recall": 0.8778625954198473,
+  "f1": 0.8472411743018415,
+  "elapsed_seconds": 0.03304488502908498,
+  "params": {
+    "algorithm": "auto",
+    "leaf_size": 30,
+    "metric": "minkowski",
+    "metric_params": null,
+    "n_jobs": 4,
+    "n_neighbors": 5,
+    "p": 2,
+    "weights": "uniform"
+  },
+  "scaler": "StandardScaler",
+  "roc_auc": 0.776298309178744,
+  "average_precision": 0.3085278543492602,
+  "input_feature_count": 829
+}

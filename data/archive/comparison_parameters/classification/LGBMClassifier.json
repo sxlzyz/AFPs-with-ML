@@ -1,0 +1,37 @@
+{
+  "stage": "classification",
+  "model": "LGBMClassifier",
+  "precision": 0.8687729276791739,
+  "recall": 0.8651399491094147,
+  "f1": 0.8668888289542311,
+  "elapsed_seconds": 0.6563086669775657,
+  "params": {
+    "boosting_type": "gbdt",
+    "class_weight": {
+      "0": 1,
+      "1": 18
+    },
+    "colsample_bytree": 0.8,
+    "importance_type": "split",
+    "learning_rate": 0.02,
+    "max_depth": 7,
+    "min_child_samples": 30,
+    "min_child_weight": 0.001,
+    "min_split_gain": 0.0,
+    "n_estimators": 100,
+    "n_jobs": 4,
+    "num_leaves": 40,
+    "objective": null,
+    "random_state": 7603948,
+    "reg_alpha": 0.0,
+    "reg_lambda": 1,
+    "subsample": 0.8,
+    "subsample_for_bin": 200000,
+    "subsample_freq": 0,
+    "verbosity": -1
+  },
+  "scaler": null,
+  "roc_auc": 0.8140700483091786,
+  "average_precision": 0.40084973072937097,
+  "input_feature_count": 829
+}

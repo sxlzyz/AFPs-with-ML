@@ -1,0 +1,29 @@
+{
+  "stage": "classification",
+  "model": "SVC",
+  "precision": 0.8768234011161716,
+  "recall": 0.8473282442748091,
+  "f1": 0.8590463012388987,
+  "elapsed_seconds": 1.4374735390301794,
+  "params": {
+    "C": 1,
+    "break_ties": false,
+    "cache_size": 200,
+    "class_weight": "balanced",
+    "coef0": 0.0,
+    "decision_function_shape": "ovr",
+    "degree": 3,
+    "gamma": "scale",
+    "kernel": "rbf",
+    "max_iter": -1,
+    "probability": true,
+    "random_state": 42,
+    "shrinking": true,
+    "tol": 0.001,
+    "verbose": false
+  },
+  "scaler": "StandardScaler",
+  "roc_auc": 0.8096920289855072,
+  "average_precision": 0.4421642959203472,
+  "input_feature_count": 829
+}

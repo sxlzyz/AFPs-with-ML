@@ -1,0 +1,25 @@
+{
+  "stage": "regression",
+  "model": "ElasticNet",
+  "r2": 0.10327875094286443,
+  "mae": 1.8414424586365197,
+  "mse": 5.650960662861154,
+  "rmse": 2.3771749331635554,
+  "spearman": 0.5113581369288208,
+  "elapsed_seconds": 0.8680924049695022,
+  "params": {
+    "alpha": 0.01,
+    "copy_X": true,
+    "fit_intercept": true,
+    "l1_ratio": 0.2,
+    "max_iter": 5000,
+    "positive": false,
+    "precompute": false,
+    "random_state": 42,
+    "selection": "cyclic",
+    "tol": 0.0001,
+    "warm_start": false
+  },
+  "scaler": "StandardScaler",
+  "input_feature_count": 1041
+}
