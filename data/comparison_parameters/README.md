@@ -1,4 +1,4 @@
-# Historical comparison model parameters and partitions
+# Comparison model parameters and partitions
 
 Parameters from 19 fitted comparison models: seven classifiers, six pairwise
 rankers, and six regressors. Each stage contains model JSON files, a partition
@@ -11,10 +11,10 @@ Ranking uses a shared training-fitted StandardScaler; KNN uses float64 Euclidean
 training data plus the other feature groups. Ridge and ElasticNet use
 StandardScaler and float64. LightGBM regression uses the evaluation partition for
 early stopping; regression models share sample weights. No retuning was performed
-for this historical comparison.
+for this comparison.
 
-Ranking indices refer to the historical augmented pair matrix, not the new
-observed-label training pairs. These files are an inventory, not current runtime
-configuration or a standalone reproduction pipeline. Runtime warning logs are
-omitted and non-standard JSON NaN values are stored as null; original source
-checksums and transformations are recorded in the supplementary manifest.
+Partition indices refer to the matrices used for the supplied comparison results.
+The ranking partition contains 325,080 training and 81,271 evaluation pair indices.
+Runtime warning logs are omitted and non-standard JSON NaN values are stored as
+null. Source checksums and packaging transformations are recorded in
+[../supplementary_manifest.json](../supplementary_manifest.json).

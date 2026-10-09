@@ -99,7 +99,7 @@ def load_script(name):
 
 def test_selection_accepts_changed_candidates_without_archive_gate(tmp_path):
     module = load_script('04_cluster_top400.py')
-    frame = pd.read_csv(ROOT / 'data/archive/reference/regression_top1000.csv')
+    frame = pd.read_csv(ROOT / 'data/screening/regression_top1000.csv')
     # Change every identity, so comparison with any old panel would fail.
     frame['candidate_id'] = ['new_' + str(i) for i in range(len(frame))]
     path = tmp_path / 'new_scores.csv'

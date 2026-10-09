@@ -68,17 +68,17 @@
   },
   "archived_data_files": {
     "final_selected_21_peptides.csv": {
-      "path": "data/archive/final_selected_21_peptides.csv",
+      "path": "data/screening/final_selected_21_peptides.csv",
       "sha256": "a6a1d6ed6ae3d75878dc630d48152ae44ebd0202678f56b981b4bb2f7df7d651",
       "rows": 21
     },
     "top400_cluster_assignments_final.csv": {
-      "path": "data/archive/top400_cluster_assignments_final.csv",
+      "path": "data/screening/top400_cluster_assignments_final.csv",
       "sha256": "dcd44d101016cc6fcff7fa5066aac1b4734158f39136f10fd45269fb616028b9",
       "rows": 400
     },
     "cluster_summary_final.csv": {
-      "path": "data/archive/cluster_summary_final.csv",
+      "path": "data/screening/cluster_summary_final.csv",
       "sha256": "fb8ef1adc49367cd83f59621a9ac5cebb45c06a130a39ca336c53edb3c454f07",
       "rows": 7
     }

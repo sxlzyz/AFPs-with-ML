@@ -1,7 +1,7 @@
 # Top400 sequence analysis
 
-Historical composition, global sequence alignments, and physicochemical descriptors.
-The candidate table is [../top400_cluster_assignments_final.csv](../top400_cluster_assignments_final.csv).
+Composition, global sequence alignments, and physicochemical descriptors.
+The candidate table is [../screening/top400_cluster_assignments_final.csv](../screening/top400_cluster_assignments_final.csv).
 Positive references are 188 unique MIC <= 2 uM sequences from both original partitions.
 
 - `amino_acid_composition.csv`: pooled residue frequencies for references and candidates.
@@ -9,8 +9,8 @@ Positive references are 188 unique MIC <= 2 uM sequences from both original part
 - `all_pairwise_alignments.csv`: all 75,200 candidate/reference alignments.
 - `physicochemical_descriptors.csv`: 400 candidates and 188 reference sequences.
 - `positive_references.csv`: reference sequences and MIC values.
-- `analysis_metadata.json`: alignment settings, definitions, and historical source hashes.
-- `historical_validation.json`: validation results recorded by the original analysis.
+- `analysis_metadata.json`: alignment settings, definitions, and source hashes.
+- `validation.json`: validation results recorded by the original analysis.
 
 Global alignment uses match +1, mismatch -1, linear gap -1 including terminal gaps;
 identity includes gap columns in the denominator. Absence of exact matches to this

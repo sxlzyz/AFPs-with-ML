@@ -137,9 +137,10 @@ def main() -> None:
         "expected_prescreen": {"rows": len(candidates), "sha256": sha256_file(prescreen_source)},
         "files": {},
     }
-    archive = data / "archive"
-    for path in sorted(data.rglob("*")):
-        if path.is_file() and path.name != "prepare_manifest.json" and archive not in path.parents:
+    input_paths = [data / name for name in ("feature_columns.json", "classification_config.json", "regression_config.json")]
+    input_paths.extend(prepared.iterdir())
+    for path in sorted(input_paths):
+        if path.is_file():
             manifest["files"][str(path.relative_to(root))] = {"bytes": path.stat().st_size, "sha256": sha256_file(path)}
     write_json(data / "prepare_manifest.json", manifest)
     print(json.dumps(manifest, ensure_ascii=False, indent=2))
