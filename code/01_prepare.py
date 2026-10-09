@@ -113,15 +113,11 @@ def main() -> None:
     root = package_root()
     data = root / "data"
     prepared = data / "prepared"
-    reference = data / "reference"
     prepared.mkdir(parents=True, exist_ok=True)
-    reference.mkdir(parents=True, exist_ok=True)
 
     feature_columns_source = source_root / "code/tmhf_repro/01_data_preprocess/final/feature_columns.json"
     feature_columns = json.loads(feature_columns_source.read_text(encoding="utf-8"))["feature_columns"]
     shutil.copy2(feature_columns_source, data / "feature_columns.json")
-    shutil.copy2(source_root / "code/tmhf_repro/02_train_models/final/paper_aligned/high_f1_search/winner.json", data / "classification_config.json")
-    shutil.copy2(source_root / "code/tmhf_repro/02_train_models/final/paper_aligned/single_lgbm_features_r2_056/best/best_r2.json", data / "regression_config.json")
 
     paper_summary = prepare_paper_training(source_root, feature_columns, prepared / "paper_training.npz")
     regression_summary = prepare_regression_training(source_root, feature_columns, prepared / "regression_training.npz")
@@ -129,15 +125,8 @@ def main() -> None:
     matrix_source = source_root / "code/tmhf_repro/03_candidate_screening/intermediate/full20_feature_matrix_2450854.npy"
     matrix_mode = link_or_copy(matrix_source, prepared / "candidate_feature_matrix.npy")
     prescreen_source = source_root / "code/tmhf_repro/03_candidate_screening/intermediate/stage1_prescreened_2450854.csv"
-    expected_top1000 = source_root / "code/tmhf_repro/03_candidate_screening/final/high_f1_must_ranking_must3_random_orientation/stage3_top_ranked_high_f1_must_1000.csv"
-    shutil.copy2(expected_top1000, reference / "expected_top1000.csv")
-
-    anchor_sequences = ["LRLRRVVLRLRRVV", "VRVVRVRVRVVRVR", "LRLLRLRLRLLRLR", "LRLLRLRRLRLLRL", "IRIIRIRIRIIRIR", "WRWWRWRWRWWRWR", "FKFFKFKFKFFKFK"]
-    candidates = pd.read_csv(prescreen_source, usecols=["sequence"])
-    lookup = {sequence: index for index, sequence in enumerate(candidates["sequence"].astype(str)) if sequence in set(anchor_sequences)}
     matrix = np.load(matrix_source, mmap_mode="r")
-    present = [sequence for sequence in anchor_sequences if sequence in lookup]
-    np.savez_compressed(prepared / "ranking_anchor_features.npz", sequences=np.asarray(present, dtype=object), features=np.asarray([matrix[lookup[sequence]] for sequence in present], dtype=np.float32))
+    candidates = pd.read_csv(prescreen_source, usecols=["sequence"])
 
     manifest = {
         "prepared": True,
@@ -146,11 +135,11 @@ def main() -> None:
         "regression_training": regression_summary,
         "candidate_feature_matrix": {"mode": matrix_mode, "rows": int(matrix.shape[0]), "columns": int(matrix.shape[1]), "sha256": sha256_file(matrix_source)},
         "expected_prescreen": {"rows": len(candidates), "sha256": sha256_file(prescreen_source)},
-        "expected_top1000_sha256": sha256_file(expected_top1000),
         "files": {},
     }
+    archive = data / "archive"
     for path in sorted(data.rglob("*")):
-        if path.is_file() and path.name != "prepare_manifest.json":
+        if path.is_file() and path.name != "prepare_manifest.json" and archive not in path.parents:
             manifest["files"][str(path.relative_to(root))] = {"bytes": path.stat().st_size, "sha256": sha256_file(path)}
     write_json(data / "prepare_manifest.json", manifest)
     print(json.dumps(manifest, ensure_ascii=False, indent=2))

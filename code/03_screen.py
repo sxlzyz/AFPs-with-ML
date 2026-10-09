@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run the complete locked screening funnel from 20^7 seed enumeration."""
+"""Run the screening funnel from 20^7 seed enumeration."""
 
 from __future__ import annotations
 
@@ -14,11 +14,9 @@ import pandas as pd
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
-from common import MUST, candidate_context, candidate_id_to_index, generic_sequence_matrix, must_positions, package_root, read_json, sha256_file, write_json
+from common import TRAINING_PROTOCOL, candidate_context, candidate_id_to_index, generic_sequence_matrix, package_root, read_json, sha256_file, write_json
 from tmhf_repro.screening import ScreeningConfig, generate_prescreened_candidates, iter_pair_batches, pair_sampling_mode
 
-
-EXPECTED_ACTIVE_SHA256 = "c8c6e24776b008b9f9f1b314a85e1847536656ff80af42c136b62b8caea4c869"
 
 
 def build_pair_features(left: np.ndarray, right: np.ndarray) -> np.ndarray:
@@ -68,39 +66,26 @@ def classify(root: Path, candidates_path: Path) -> tuple[Path, dict]:
     classified["active_probability"] = probability
     classified["predicted_active_label"] = keep
 
-    # Preserve the locked workflow's row order exactly. Pandas' default
-    # single-column sort determines the order of equal-probability rows; those
-    # row indices are subsequently consumed by the seeded pair sampler.
+    # Keep deterministic handling of equal-probability rows.
     active = classified[classified["predicted_active_label"] == 1].sort_values(
         "active_probability", ascending=False
     )
     path = root / "outputs/screening/stage2_active_21000.csv"
     active.to_csv(path, index=False)
     digest = sha256_file(path)
-    rank = np.empty(len(order), dtype=np.int64)
-    rank[order] = np.arange(1, len(order) + 1)
-    sequence_index = {sequence: index for index, sequence in enumerate(candidates["sequence"].astype(str))}
-    must = {name: {"rank": int(rank[sequence_index[sequence]]), "selected": bool(rank[sequence_index[sequence]] <= 21_000)} for name, sequence in MUST.items()}
     return path, {
         "rows": len(active),
         "sha256": digest,
-        "expected_sha256": EXPECTED_ACTIVE_SHA256,
-        "must": must,
-        "pass": len(active) == 21_000
-        and digest == EXPECTED_ACTIVE_SHA256
-        and all(value["selected"] for value in must.values()),
+        "pass": len(active) == 21_000 and active["candidate_id"].is_unique and bool(np.isfinite(probability).all()),
     }
 
 
 def rank_candidates(root: Path, active_path: Path, pairs: int, batch_size: int) -> tuple[Path, dict]:
+    if pairs <= 0 or batch_size <= 0:
+        raise ValueError("Ranking pair count and batch size must be positive")
     active = pd.read_csv(active_path)
     matrix = np.load(root / "data/prepared/candidate_feature_matrix.npy", mmap_mode="r")
     model = joblib.load(root / "outputs/models/ranking.joblib")
-    # NOTE: device intentionally follows the booster's training-time default
-    # (cuda:1) for bit-exact reproducibility against the locked expected top1000.
-    # Forcing CPU here introduced ±10 score drift vs the locked SHA because
-    # XGBoost's GPU vs CPU matmul produces slightly different round-to-nearest
-    # outcomes that accumulate over 80M pairwise comparisons.
     indices = np.asarray([candidate_id_to_index(value) for value in active["candidate_id"]], dtype=np.int64)
     values = np.asarray(matrix[indices], dtype=np.float32)
     mode, target = pair_sampling_mode(len(active), pairs, 6_000_000)
@@ -134,10 +119,8 @@ def rank_candidates(root: Path, active_path: Path, pairs: int, batch_size: int) 
     top = ranked.head(1000)
     path = root / "outputs/screening/stage3_top1000.csv"
     top.to_csv(path, index=False)
-    must = {name: int(ranked.index[ranked["sequence"].astype(str) == sequence][0] + 1) for name, sequence in MUST.items()}
-    expected = pd.read_csv(root / "data/reference/expected_top1000.csv")
-    order_match = top["candidate_id"].astype(str).tolist() == expected["candidate_id"].astype(str).tolist()
-    return path, {"pairs": processed, "sampling_mode": mode, "ties": ties, "must": must, "top1000_order_match": order_match, "pass": processed == pairs and order_match}
+    return path, {"pairs": processed, "sampling_mode": mode, "ties": ties,
+                  "pass": processed == target and len(top) == 1000 and top["candidate_id"].is_unique}
 
 
 def regress(root: Path, top_path: Path) -> dict:
@@ -149,7 +132,7 @@ def regress(root: Path, top_path: Path) -> dict:
     context_columns = training["context_columns"].astype(str).tolist()
     secondary_columns = training["secondary_columns"].astype(str).tolist()
     augmented = np.concatenate([base, candidate_context(len(top), context_columns), np.zeros((len(top), len(secondary_columns)), dtype=np.float32), generic_sequence_matrix(top["sequence"].astype(str).tolist())], axis=1).astype(np.float32)
-    model = joblib.load(root / "outputs/models/regression_r2_0p578969.joblib")
+    model = joblib.load(root / "outputs/models/regression.joblib")
     prediction = np.asarray(model.predict(augmented), dtype=np.float32)
     result = top.copy()
     result["pred_log2_mic"] = prediction
@@ -160,8 +143,23 @@ def regress(root: Path, top_path: Path) -> dict:
     final = root / "outputs/screening/stage4_top20.csv"
     result.to_csv(scores, index=False)
     result.head(20).to_csv(final, index=False)
-    positions = {name: int(result.index[result["sequence"].astype(str) == sequence][0] + 1) for name, sequence in MUST.items()}
-    return {"scores": str(scores.relative_to(root)), "top20": str(final.relative_to(root)), "must": positions, "pass": len(result) == 1000}
+    return {"scores": str(scores.relative_to(root)), "sha256": sha256_file(scores), "top20": str(final.relative_to(root)),
+            "pass": len(result) == 1000 and bool(np.isfinite(prediction).all())}
+
+
+def verify_training(root: Path) -> None:
+    """Require matching model files produced by the current training protocol."""
+    path = root / "outputs/training_manifest.json"
+    if not path.is_file():
+        raise SystemExit("Run code/02_train.py first")
+    manifest = read_json(path)
+    if manifest.get("training_protocol") != TRAINING_PROTOCOL or manifest.get("pass") is not True:
+        raise SystemExit("Retrain with code/02_train.py: incompatible or incomplete training manifest")
+    for stage in ("classification", "ranking", "regression"):
+        record = manifest[stage]
+        model = root / record["model"]
+        if not model.is_file() or sha256_file(model) != record["sha256"]:
+            raise SystemExit(f"Model file does not match the training manifest: {stage}")
 
 
 def main() -> None:
@@ -170,23 +168,30 @@ def main() -> None:
     parser.add_argument("--ranking-pairs", type=int, default=80_000_000)
     parser.add_argument("--ranking-batch-size", type=int, default=20_000)
     args = parser.parse_args()
+    if min(args.generation_workers, args.ranking_pairs, args.ranking_batch_size) <= 0:
+        parser.error("Worker count, ranking pairs, and batch size must be positive")
     root = package_root()
     if not (root / "data/prepared/candidate_feature_matrix.npy").is_file():
         raise SystemExit(
             "Missing external data: data/prepared/candidate_feature_matrix.npy. "
-            "See README.md: Data requirements."
+            "See README.md: Full training and screening."
         )
-    if not (root / "outputs/training_manifest.json").exists():
-        raise SystemExit("Run code/02_train.py first")
+    verify_training(root)
+    (root / "outputs/screening_manifest.json").unlink(missing_ok=True)
     (root / "outputs/screening").mkdir(parents=True, exist_ok=True)
     candidates_path, stage1 = enumerate_candidates(root, args.generation_workers)
     if not stage1["pass"]:
         raise SystemExit(f"Stage 1 mismatch: {stage1}")
     active_path, classification = classify(root, candidates_path)
+    if not classification["pass"]:
+        raise SystemExit(f"Classification output failed validation: {classification}")
     top_path, ranking = rank_candidates(root, active_path, args.ranking_pairs, args.ranking_batch_size)
+    if not ranking["pass"]:
+        raise SystemExit(f"Ranking output failed validation: {ranking}")
     regression = regress(root, top_path)
     result = {"stage1": stage1, "classification": classification, "ranking": ranking, "regression": regression}
     result["pass"] = all(value["pass"] for value in result.values())
+    result["training_protocol"] = TRAINING_PROTOCOL
     write_json(root / "outputs/screening_manifest.json", result)
     print(json.dumps(result, ensure_ascii=False, indent=2))
     raise SystemExit(0 if result["pass"] else 1)

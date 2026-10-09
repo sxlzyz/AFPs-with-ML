@@ -1,6 +1,4 @@
 {
-  "source": "high_f1_near_1",
-  "try": 4345,
   "thr": 2,
   "split_seed": 4252754,
   "model_seed": 7603948,
@@ -17,18 +15,5 @@
       "0": 1,
       "1": 18
     }
-  },
-  "f1_weighted": 0.8668888289542311,
-  "roc_auc": 0.8140700483091786,
-  "ranks": {
-    "AFP14": 5994,
-    "AFP18": 18419,
-    "AFP20": 17265
-  },
-  "must_probs": {
-    "AFP14": 0.6887068983248046,
-    "AFP18": 0.6297328801648029,
-    "AFP20": 0.6332420306588593
-  },
-  "model": "code/tmhf_repro/02_train_models/final/models/classification_model_high_f1_must.joblib"
+  }
 }

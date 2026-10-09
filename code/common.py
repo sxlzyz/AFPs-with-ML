@@ -16,11 +16,7 @@ from sklearn.pipeline import Pipeline
 
 AA = "ACDEFGHIKLMNPQRSTVWY"
 AA_INDEX = {aa: i for i, aa in enumerate(AA)}
-MUST = {
-    "AFP14": "LRLRRVVLRLRRVV",
-    "AFP18": "VRVVRVRVRVVRVR",
-    "AFP20": "LRLLRLRLRLLRLR",
-}
+TRAINING_PROTOCOL = "observed_labels_v1"
 
 
 def package_root() -> Path:
@@ -163,11 +159,3 @@ def candidate_id_to_index(candidate_id: str) -> int:
     if not text.startswith("cand_"):
         raise ValueError(f"Invalid candidate id: {candidate_id}")
     return int(text.split("_", 1)[1])
-
-
-def must_positions(prediction: np.ndarray, sequences: list[str]) -> dict[str, int]:
-    order = np.argsort(prediction, kind="stable")
-    ranks = np.empty(len(order), dtype=np.int64)
-    ranks[order] = np.arange(1, len(order) + 1)
-    lookup = {sequence: index for index, sequence in enumerate(sequences)}
-    return {name: int(ranks[lookup[sequence]]) for name, sequence in MUST.items() if sequence in lookup}

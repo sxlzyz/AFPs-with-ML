@@ -155,13 +155,3 @@ def _cluster_representative(
         best = members[np.flatnonzero(np.isclose(means, means.min(), rtol=0.0, atol=1e-12))]
         return int(_preference_order(frame, best)[0])
     raise ValueError(f"Unsupported representative rule: {representative}")
-
-
-def evaluate_targets(panel: pd.DataFrame, targets: dict[str, str]) -> dict[str, Any]:
-    positions = {sequence: position for position, sequence in enumerate(panel["sequence"].astype(str), start=1)}
-    target_positions = {name: int(positions[sequence]) for name, sequence in targets.items() if sequence in positions}
-    return {
-        "target_hit_count": int(len(target_positions)),
-        "target_all_present": bool(len(target_positions) == len(targets)),
-        "target_positions": target_positions,
-    }

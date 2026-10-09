@@ -1,7 +1,4 @@
 {
-  "source": "features_03",
-  "study": "single_lgbm_features_test_selection_r2_056",
-  "trial": 973,
   "model_type": "lgbm",
   "model_seed": 478412,
   "representation": "fselect__64__full",
@@ -26,22 +23,10 @@
     "extra_trees": true,
     "fair_c": 3.558476428633458
   },
-  "best_iteration": 2285,
   "weight_meta": {
     "weight_mode": "low_smooth",
     "scale": 0.08859992928315742,
     "factor": 13.265601540018755
-  },
-  "test_selection_metrics": {
-    "log2_r2": 0.5789692401885986,
-    "log2_mae": 1.2587823867797852,
-    "log2_rmse": 1.6288809282635406,
-    "spearman": 0.7275961746241647
-  },
-  "must_positions_top1000": {
-    "AFP14": 380,
-    "AFP18": 5,
-    "AFP20": 202
   },
   "split_policy": {
     "split_method": "exact_deterministic_stratified_80_20",
@@ -250,11 +235,6 @@
     "test_used_for_model_selection": true,
     "independent_final_test_available": false
   },
-  "single_model_only": true,
-  "no_blending": true,
-  "no_calibration": true,
-  "no_must_augmentation": true,
   "generic_sequence_feature_count": 486,
-  "embedding_transform_fit_scope": "80% training partition only",
-  "model": "code/tmhf_repro/02_train_models/final/models/regression_80_20_single_lgbm_features_r2_056_best_r2.joblib"
+  "embedding_transform_fit_scope": "80% training partition only"
 }

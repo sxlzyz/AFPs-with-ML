@@ -227,11 +227,10 @@
     "rows": 2450854,
     "sha256": "e6c03962d38b47369b8feace05097d9deb782b4598272b8adf19618390bc2f24"
   },
-  "expected_top1000_sha256": "386cbc6df36a4584dacf104151b7af84331feb42a4ded2e2f1f32019444d2c75",
   "files": {
     "data/classification_config.json": {
-      "bytes": 751,
-      "sha256": "90648b0d172e2441f140c96655bd1672a14a65d28d280a0ac46788577a35eb45"
+      "bytes": 340,
+      "sha256": "7b3cb47116b7957ea0ffb73b87f8287c4088b2167dfee64d67b2e926182be789"
     },
     "data/feature_columns.json": {
       "bytes": 23856,
@@ -245,25 +244,13 @@
       "bytes": 5933274,
       "sha256": "cec7683c8110ace4b4c5108fafe26952b8423a21567329701e5c772ac13c795f"
     },
-    "data/prepared/ranking_anchor_features.npz": {
-      "bytes": 18723,
-      "sha256": "eff335fa484da59b5c2087e1e5a81fbd94184d48da2bd80f6ee36e7655dd68dd"
-    },
     "data/prepared/regression_training.npz": {
       "bytes": 6032502,
       "sha256": "ab4cadb978b693bf886275b8594a036b1b245efc06699242d78b8ea8ee1b6753"
     },
-    "data/reference/expected_top1000.csv": {
-      "bytes": 140690,
-      "sha256": "386cbc6df36a4584dacf104151b7af84331feb42a4ded2e2f1f32019444d2c75"
-    },
     "data/regression_config.json": {
-      "bytes": 6506,
-      "sha256": "2b7b0481e46b578bf719c8a47b9f8c2e026a12418d63cb70d4a0f165d976122c"
-    },
-    "data/reference/regression_top1000.csv": {
-      "bytes": 163863,
-      "sha256": "8e5a29c2c85c8421c2c986bb237c759050df9143f658f380ee22dd3f840c458f"
+      "bytes": 5887,
+      "sha256": "cbccd4aace18cca091b21e12be2a467874e957389670cc05efe232b0b5adaf70"
     }
   }
 }

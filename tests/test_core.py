@@ -9,7 +9,7 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "code"))
-from tmhf_repro.panel_selection import validate_candidates, pairwise_distance, evaluate_targets, cluster_three_role_panel
+from tmhf_repro.panel_selection import validate_candidates, pairwise_distance, cluster_three_role_panel
 
 def candidate_frame(n: int = 30) -> pd.DataFrame:
     alphabet = "ACDEFGHIKLMNPQRSTVWY"
@@ -64,20 +64,6 @@ def test_hamming_distance_is_normalized_and_symmetric() -> None:
     assert matrix[0, 1] == pytest.approx(0.25)
     assert matrix[0, 2] == pytest.approx(1.0)
 
-def test_evaluate_targets_reports_hits_only_after_panel_exists() -> None:
-    frame = candidate_frame(30)
-    panel = frame.iloc[[0, 4, 8, 12]]
-    result = evaluate_targets(
-        panel,
-        {
-            "present_a": frame.iloc[0]["sequence"],
-            "present_b": frame.iloc[8]["sequence"],
-            "absent": frame.iloc[20]["sequence"],
-        },
-    )
-    assert result["target_hit_count"] == 2
-    assert result["target_all_present"] is False
-    assert result["target_positions"] == {"present_a": 1, "present_b": 3}
 
 def test_cluster_three_role_panel_tracks_role_overlap_and_unique_candidates() -> None:
     frame = candidate_frame(28)
@@ -104,21 +90,150 @@ def test_included_inputs_match_integrity_manifest():
         assert hashlib.sha256(path.read_bytes()).hexdigest() == record["sha256"], name
 
 
-def test_final_panel_matches_archive_without_external_inputs(tmp_path):
-    spec = importlib.util.spec_from_file_location("cluster_top400", ROOT / "code/04_cluster_top400.py")
+def load_script(name):
+    spec = importlib.util.spec_from_file_location(name.removesuffix('.py'), ROOT / 'code' / name)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
-    (tmp_path / "data").mkdir()
-    archive = ROOT / "data/final_selected_21_peptides.csv"
-    (tmp_path / "data/final_selected_21_peptides.csv").write_bytes(archive.read_bytes())
-    report = module.run(tmp_path, ROOT / "data/reference/regression_top1000.csv")
-    assert report["matches_archive"] is True
-    assert report["panel_size"] == 21
-    workbook = tmp_path / report["output"]
-    assert pd.ExcelFile(workbook).sheet_names == ["panel_21", "cluster_parameters", "readme"]
-    panel = pd.read_excel(workbook, sheet_name="panel_21")
-    expected = pd.read_csv(archive)
-    keys = ["candidate_id", "cluster_id", "selection_role", "sequence"]
-    assert set(panel[keys].itertuples(index=False, name=None)) == set(expected[keys].itertuples(index=False, name=None))
-    assert panel["candidate_id"].is_unique
-    assert panel.groupby("cluster_id").size().eq(3).all()
+    return module
+
+
+def test_selection_accepts_changed_candidates_without_archive_gate(tmp_path):
+    module = load_script('04_cluster_top400.py')
+    frame = pd.read_csv(ROOT / 'data/archive/reference/regression_top1000.csv')
+    # Change every identity, so comparison with any old panel would fail.
+    frame['candidate_id'] = ['new_' + str(i) for i in range(len(frame))]
+    path = tmp_path / 'new_scores.csv'
+    frame.to_csv(path, index=False)
+    report = module.run(tmp_path, path)
+    assert report['role_selections'] == 21
+    workbook = tmp_path / report['output']
+    assert pd.ExcelFile(workbook).sheet_names == ['panel_21', 'unique_peptides', 'cluster_parameters', 'readme']
+    roles = pd.read_excel(workbook, sheet_name='panel_21')
+    unique = pd.read_excel(workbook, sheet_name='unique_peptides')
+    assert roles.candidate_id.str.startswith('new_').all()
+    assert unique.candidate_id.is_unique
+    assert len(unique) == report['panel_size']
+    assert len(roles) - len(unique) == report['role_overlap_count']
+
+
+def test_classifier_retains_scores_without_designated_sequences(tmp_path, monkeypatch):
+    module = load_script('03_screen.py')
+    folder = tmp_path / 'outputs/screening'
+    folder.mkdir(parents=True)
+    prepared = tmp_path / 'data/prepared'
+    prepared.mkdir(parents=True)
+    count = 21_003
+    scores = np.linspace(0.01, 0.99, count, dtype=np.float32)
+    np.save(prepared / 'candidate_feature_matrix.npy', scores[:, None])
+    source = folder / 'candidates.csv'
+    pd.DataFrame({'candidate_id': [f'cand_{i:08d}' for i in range(count)],
+                  'sequence': ['SYNTHETIC_TEST_INPUT'] * count}).to_csv(source, index=False)
+
+    class Classifier:
+        classes_ = [0, 1]
+        def predict_proba(self, matrix):
+            return np.column_stack([1 - matrix[:, 0], matrix[:, 0]])
+
+    monkeypatch.setattr(module.joblib, 'load', lambda path: Classifier())
+    path, report = module.classify(tmp_path, source)
+    assert report['pass']
+    retained = pd.read_csv(path)
+    assert len(retained) == 21_000
+    assert set(retained.candidate_id) == {f'cand_{i:08d}' for i in range(3, count)}
+
+
+def test_ranker_uses_only_observed_records(tmp_path, monkeypatch):
+    module = load_script('02_train.py')
+    import xgboost
+    from sklearn.base import BaseEstimator, ClassifierMixin
+    folder = tmp_path / 'data/prepared'
+    folder.mkdir(parents=True)
+    mic = np.tile([1., 4., 16.], 12).astype(np.float32)
+    features = np.arange(len(mic) * 4, dtype=np.float32).reshape(-1, 4) + 1
+    np.savez(folder / 'paper_training.npz', mic=mic, features=features)
+    seen = {}
+
+    class Classifier(ClassifierMixin, BaseEstimator):
+        def __init__(self, **kwargs):
+            pass
+        def fit(self, x, y):
+            seen['train_rows'] = len(y)
+            self.classes_ = np.unique(y)
+            return self
+        def predict(self, x):
+            seen['evaluation_rows'] = len(x)
+            return np.resize(self.classes_, len(x))
+
+    monkeypatch.setattr(xgboost, 'XGBClassifier', Classifier)
+    monkeypatch.setattr(module, 'select_device', lambda: 'cpu')
+    monkeypatch.setattr(module.joblib, 'dump', lambda model, path: path.write_bytes(b'test-model'))
+    models = tmp_path / 'outputs/models'
+    models.mkdir(parents=True)
+    report = module.train_ranking(tmp_path, models)
+    assert report['positives'] == 24
+    assert report['pairs'] == 276
+    assert seen['train_rows'] + seen['evaluation_rows'] == 276
+    assert report['pass']
+    np.testing.assert_array_equal(np.load(folder / 'paper_training.npz')['mic'], mic)
+
+
+def test_screening_rejects_legacy_or_mismatched_models(tmp_path):
+    module = load_script('03_screen.py')
+    folder = tmp_path / 'outputs'
+    folder.mkdir()
+    path = folder / 'training_manifest.json'
+    path.write_text(json.dumps({'pass': True}))
+    with pytest.raises(SystemExit, match='Retrain'):
+        module.verify_training(tmp_path)
+    manifest = {'pass': True, 'training_protocol': module.TRAINING_PROTOCOL}
+    for stage in ('classification', 'ranking', 'regression'):
+        model = folder / (stage + '.joblib')
+        model.write_bytes(stage.encode())
+        manifest[stage] = {'model': str(model.relative_to(tmp_path)), 'sha256': hashlib.sha256(model.read_bytes()).hexdigest()}
+    path.write_text(json.dumps(manifest))
+    module.verify_training(tmp_path)
+    model.write_bytes(b'changed')
+    with pytest.raises(SystemExit, match='does not match'):
+        module.verify_training(tmp_path)
+
+
+def test_ranking_and_regression_allow_new_results_without_reference_tables(tmp_path, monkeypatch):
+    module = load_script('03_screen.py')
+    prepared = tmp_path / 'data/prepared'
+    prepared.mkdir(parents=True)
+    folder = tmp_path / 'outputs/screening'
+    folder.mkdir(parents=True)
+    frame = candidate_frame(1000).drop(columns=['regression_rank', 'rank_position', 'rank_score', 'pred_log2_mic'])
+    frame['active_probability'] = np.linspace(0.01, 0.99, len(frame))
+    active = folder / 'active.csv'
+    frame.to_csv(active, index=False)
+    np.save(prepared / 'candidate_feature_matrix.npy', np.arange(2000, dtype=np.float32).reshape(1000, 2))
+    np.savez(prepared / 'regression_training.npz', context_columns=np.array([], dtype=str), secondary_columns=np.array([], dtype=str))
+
+    class Ranker:
+        def predict(self, x):
+            return np.where(x[:, 0] < x[:, 2], 1, 2)
+
+    class Regressor:
+        def predict(self, x):
+            return -x[:, 0] / 1000
+
+    monkeypatch.setattr(module.joblib, 'load', lambda path: Ranker() if path.name == 'ranking.joblib' else Regressor())
+    top, rank_report = module.rank_candidates(tmp_path, active, pairs=100, batch_size=13)
+    assert rank_report['pass'] and rank_report['pairs'] == 100
+    report = module.regress(tmp_path, top)
+    assert report['pass']
+    result = pd.read_csv(tmp_path / report['scores'])
+    assert result.pred_log2_mic.is_monotonic_increasing
+    assert result.iloc[0].candidate_id == 'cand_00000999'
+    with pytest.raises(ValueError, match='must be positive'):
+        module.rank_candidates(tmp_path, active, pairs=0, batch_size=13)
+
+
+def test_selection_default_rejects_stale_screening(tmp_path):
+    module = load_script('04_cluster_top400.py')
+    folder = tmp_path / 'outputs'
+    folder.mkdir()
+    (folder / 'screening_manifest.json').write_text(json.dumps({'pass': True}))
+    with pytest.raises(SystemExit, match='current trained models'):
+        module.run(tmp_path)
