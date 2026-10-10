@@ -849,21 +849,21 @@
       "sha256": "92e901dee5d1ea9a6e2b73f17909842ec5413f1f90e4be62a7bde14e1a1c3196",
       "source_sha256": "92e901dee5d1ea9a6e2b73f17909842ec5413f1f90e4be62a7bde14e1a1c3196",
       "transformation": "none"
-    }
-  ],
-  "not_uploaded": [
+    },
     {
       "source": "Data S3b",
-      "path": "data/external/top21000_model_input_features.npz",
+      "path": "data/screening/top21000_model_input_features.npz",
       "bytes": 63536403,
       "sha256": "d9650f195da7aeddfa7b066840704c3b4397e8e42d23bae8f5d3c0b8b127391d",
       "shape": [
         21000,
         829
       ],
-      "reason": "Large-file upload deferred; no public download is provided."
+      "source_sha256": "d9650f195da7aeddfa7b066840704c3b4397e8e42d23bae8f5d3c0b8b127391d",
+      "transformation": "none"
     }
   ],
+  "not_uploaded": [],
   "excluded_bundle_members": [
     {
       "source": "data_s2b_top400_sequence_analysis.zip::FILE_SHA256.json",

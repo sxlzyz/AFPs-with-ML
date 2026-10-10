@@ -91,8 +91,8 @@ Top20 and the cluster representatives are separate outputs.
 
 See the [data directory](data/README.md) for descriptive filenames, supplementary
 dataset mappings, and checksums. Screening results, evaluation tables, and model
-comparisons are organized by purpose under `data/`. Large feature matrices are
-distributed separately.
+comparisons are organized by purpose under `data/`. The Top21000 feature matrix is included;
+the full candidate feature matrix is distributed separately.
 
 ## Data preparation
 

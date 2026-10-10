@@ -24,7 +24,7 @@ reused instead of storing duplicate copies.
 | Data S2 | [top400_cluster_assignments_final.csv](screening/top400_cluster_assignments_final.csv) | 400 candidates with cluster assignments and selection roles. |
 | Data S2b | [top400_sequence_analysis/](top400_sequence_analysis/) | Composition, reference alignments, sequence identity, and physicochemical descriptors. |
 | Data S3a | [classifier_top21000_candidates.csv](screening/classifier_top21000_candidates.csv) | 21,000 candidate sequences, generation metadata, and classifier scores. |
-| Data S3b | `external/top21000_model_input_features.npz` — not uploaded | Ordered 21,000 × 829 model-input features; approximately 61 MiB. |
+| Data S3b | [top21000_model_input_features.npz](screening/top21000_model_input_features.npz) | Ordered 21,000 × 829 model-input features; approximately 61 MiB. |
 | Data S4 | [regression_top1000.csv](screening/regression_top1000.csv) | 1,000 candidates with pairwise ranking and predicted MIC. |
 | Data S5 | [model_evaluation_metrics.csv](evaluation/model_evaluation_metrics.csv) | Classifier, ranker, regressor, and clustering metrics. |
 | Data S5b | [model_comparisons/](model_comparisons/) | Evaluation predictions and metrics for 19 comparison models. |
@@ -47,7 +47,7 @@ Parameter JSON is normalized to valid JSON, with non-finite constants represente
 as null and runtime warning logs omitted. Source hashes in analysis metadata identify the data and code used for the
 supplied results. The supplementary manifest records dataset provenance.
 
-The large Top21000 feature archive is deferred under the repository's large-file
-policy. Its size and checksum are in the manifest. No public download is supplied.
-It is distinct from the approximately 7.6 GiB full candidate matrix required by
-the current screening pipeline; neither matrix is included in Git.
+The Top21000 feature archive is included in `screening/`; its size and SHA-256
+checksum are recorded in the manifest. The approximately 7.6 GiB full candidate
+matrix required by the screening pipeline is distributed separately and remains
+excluded from Git.
