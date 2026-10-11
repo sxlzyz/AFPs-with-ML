@@ -28,7 +28,7 @@ reused instead of storing duplicate copies.
 | Data S4 | [regression_top1000.csv](screening/regression_top1000.csv) | 1,000 candidates with pairwise ranking and predicted MIC. |
 | Data S5 | [model_evaluation_metrics.csv](evaluation/model_evaluation_metrics.csv) | Classifier, ranker, regressor, and clustering metrics. |
 | Data S5b | [model_comparisons/](model_comparisons/) | Evaluation predictions and metrics for 19 comparison models. |
-| Data S6 | [regression_feature_ablation.csv](evaluation/regression_feature_ablation.csv) | Six regression feature variants and uncertainty estimates. |
+| Data S6 | [regression_feature_ablation.csv](evaluation/regression_feature_ablation.csv) | Six regression feature configurations: locked Full and five-retraining means. |
 | Data S7 | [screening_funnel_statistics.csv](evaluation/screening_funnel_statistics.csv) | Candidate counts and reduction rates across screening stages. |
 | Data S8 | [alphafold_dssp_feature_dictionary.csv](alphafold_dssp_feature_dictionary.csv) | Definitions of 36 structural features. |
 | Data S9 | [model_training_parameters.csv](evaluation/model_training_parameters.csv) | Training parameters for the supplied model results. |
