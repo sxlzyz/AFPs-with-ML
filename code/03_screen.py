@@ -162,6 +162,31 @@ def verify_training(root: Path) -> None:
             raise SystemExit(f"Model file does not match the training manifest: {stage}")
 
 
+def verify_candidate_matrix(root: Path) -> None:
+    """Accept the historical matrix or an aligned, checksummed local regeneration."""
+    path = root / "data/prepared/candidate_feature_matrix.npy"
+    manifest = read_json(root / "data/prepare_manifest.json")
+    expected = manifest["candidate_feature_matrix"]
+    matrix = np.load(path, mmap_mode="r", allow_pickle=False)
+    if matrix.shape != (expected["rows"], expected["columns"]) or matrix.dtype != np.float32:
+        raise SystemExit("Candidate matrix has an incompatible shape or dtype")
+    digest = sha256_file(path)
+    if digest == expected["sha256"]:
+        return
+    record_path = path.with_suffix(".json")
+    if not record_path.is_file():
+        raise SystemExit("Regenerated matrix needs the provenance JSON from code/00_build_candidate_features.py")
+    record = read_json(record_path)
+    if not (record.get("complete") is True and record.get("full_pool") is True
+            and record.get("matrix_sha256") == digest
+            and record.get("input_sha256") == manifest["expected_prescreen"]["sha256"]
+            and record.get("feature_columns_sha256") == sha256_file(root / "data/feature_columns.json")):
+        raise SystemExit("Candidate matrix provenance, row order or checksum does not match")
+    for start in range(0, len(matrix), 100_000):
+        if not np.isfinite(matrix[start:start + 100_000]).all():
+            raise SystemExit("Candidate matrix contains non-finite values")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--generation-workers", type=int, default=16)
@@ -173,9 +198,10 @@ def main() -> None:
     root = package_root()
     if not (root / "data/prepared/candidate_feature_matrix.npy").is_file():
         raise SystemExit(
-            "Missing external data: data/prepared/candidate_feature_matrix.npy. "
-            "See README.md: Full training and screening."
+            "Generate data/prepared/candidate_feature_matrix.npy first: "
+            "python code/00_build_candidate_features.py (see README.md)."
         )
+    verify_candidate_matrix(root)
     verify_training(root)
     (root / "outputs/screening_manifest.json").unlink(missing_ok=True)
     (root / "outputs/screening").mkdir(parents=True, exist_ok=True)

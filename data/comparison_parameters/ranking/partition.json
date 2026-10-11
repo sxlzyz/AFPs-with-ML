@@ -6,5 +6,9 @@
   "evaluation_indices_sha256": "c87a3d90fb99eb8ebd6fd1f5e9470289e66253fc0ecad49f1b9015d1450f9963",
   "label_sha256": "181fbf754c83058040a91da28c80e353ce7b42cd04c468cfd06b37c46b0ff7fb",
   "evaluation_role": "model-selection",
-  "no_retuning": true
+  "no_retuning": false,
+  "retuned_models": [
+    "LGBMClassifier"
+  ],
+  "parameter_update": "Updated LightGBM comparison configuration; same archived pair indices and labels."
 }

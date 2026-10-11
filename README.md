@@ -30,36 +30,43 @@ python -m pytest -q
 
 ## Full training and screening
 
-The two small training archives are included under `data/prepared/` and use
-ordinary Git. Full screening additionally requires
-`data/prepared/candidate_feature_matrix.npy` (2,450,854 x 829 float32 values,
-approximately 7.6 GiB). It is excluded from Git and has no public download yet.
-Expected file sizes and SHA-256 values are in `data/prepare_manifest.json`.
+The two training archives are included under `data/prepared/`. The full candidate
+feature matrix is a **locally generated intermediate**, not a required download.
+It contains 2,450,854 × 829 float32 values (approximately 7.6 GiB) and remains
+excluded from Git.
 
-After obtaining the matrix, verify it:
-
-```bash
-python - <<'PYTHON'
-import hashlib
-import json
-from pathlib import Path
-path = Path("data/prepared/candidate_feature_matrix.npy")
-expected = json.loads(Path("data/prepare_manifest.json").read_text())["files"][path.as_posix()]
-with path.open("rb") as stream:
-    digest = hashlib.file_digest(stream, "sha256").hexdigest()
-assert path.stat().st_size == expected["bytes"]
-assert digest == expected["sha256"]
-print("Verified")
-PYTHON
-```
-
-Run these commands in order, proceeding when the previous command succeeds:
+Generate it from the candidate sequences and the public pretrained
+[ProtBERT checkpoint](https://huggingface.co/Rostlab/prot_bert/tree/7a894481acdc12202f0a415dd567f6cfdb698908):
 
 ```bash
+python -m pip install -r requirements-features.txt
+python -u code/00_build_candidate_features.py --device cuda:0 --batch-size 128
 python -u code/02_train.py
 python -u code/03_screen.py
 python code/04_cluster_top400.py
 ```
+
+The feature-building command enumerates and validates the prescreened pool,
+downloads the pinned public encoder, and writes
+`data/prepared/candidate_feature_matrix.npy` plus its `.json` provenance/checksum.
+It computes 61 physicochemical/nonlinear descriptors and 768 embedding values in
+`data/feature_columns.json` order. The embedding implementation uses Rostlab
+ProtBERT (the existing column prefix is `proteinbert__emb_`): space-separated
+residues, mean pooling including CLS/SEP but excluding padding, and the first
+768 of 1,024 hidden dimensions. Encoder inference and the stored matrix use float32.
+
+Use `--device cpu` without a GPU (considerably slower), lower `--batch-size` if
+GPU memory is limited, or pass `--model-path /path/to/prot_bert` for an existing
+copy of the pinned weights. Install a PyTorch build compatible with your hardware.
+Allow space for the 7.6 GiB matrix, model download, and screening outputs. Full
+pool generation and embedding inference are computationally expensive. Existing
+matrices are not overwritten.
+
+The published matrix hash in `data/prepare_manifest.json` identifies the
+historical cache. Fresh inference can vary slightly across devices/library
+versions; a generated matrix is validated against its own checksum and the fixed
+sequence/feature order, rather than required to match that historical hash.
+The generator records model revision, pooling, package versions and device.
 
 Screening validates model files against the training manifest. The regression
 model is saved as `outputs/models/regression.joblib`.
@@ -92,7 +99,7 @@ Top20 and the cluster representatives are separate outputs.
 See the [data directory](data/README.md) for descriptive filenames, supplementary
 dataset mappings, and checksums. Screening results, evaluation tables, and model
 comparisons are organized by purpose under `data/`. The Top21000 feature matrix is included;
-the full candidate feature matrix is distributed separately.
+the full candidate feature matrix is generated locally using the command above.
 
 ## Data preparation
 
@@ -115,6 +122,10 @@ partition is used for early stopping and model selection. Reported metrics
 therefore describe these evaluation partitions, not independent external tests.
 
 Model hyperparameters and split seeds are recorded in the configuration files.
+Archived comparison results use their saved partitions; in particular, the
+81,271-pair ranking comparison partition differs from the observed-label-only
+training protocol in `code/02_train.py`. The updated comparison LightGBM reaches
+F1 = 0.9883 on that archived partition, not on a newly generated split.
 The seven-cluster configuration uses `random_state=328`, `n_init=1`, and
 `max_iter=500`. To run panel selection on the supplied regression scores:
 

@@ -454,10 +454,10 @@
     {
       "source": "data_s5b_model_comparisons.zip::model_metrics.csv",
       "path": "data/model_comparisons/model_metrics.csv",
-      "bytes": 2046,
-      "sha256": "c1f8e0d2b972b10ea2c12d383f0ffdc79ffe6409fdd65e5c70a1b57e1a833a79",
+      "bytes": 2045,
+      "sha256": "83c36ac19234a69bd7316a4b4108f454a148b3cf9cd0ca53bc474ce18c021cb5",
       "source_sha256": "c1f8e0d2b972b10ea2c12d383f0ffdc79ffe6409fdd65e5c70a1b57e1a833a79",
-      "transformation": "none",
+      "transformation": "Updated ranking LightGBM result or corresponding documentation; historical source mapping retained.",
       "rows": 19,
       "columns": [
         "stage",
@@ -471,7 +471,8 @@
         "metrics.mse",
         "metrics.rmse",
         "metrics.spearman"
-      ]
+      ],
+      "update_note": "2026-10-11: refresh ranking LightGBM on unchanged archived evaluation indices/labels; preserve other comparison results."
     },
     {
       "source": "data_s5b_model_comparisons.zip::ranking/DecisionTree_predictions.csv",
@@ -519,15 +520,16 @@
       "source": "data_s5b_model_comparisons.zip::ranking/LGBMClassifier_predictions.csv",
       "path": "data/model_comparisons/ranking/LGBMClassifier_predictions.csv",
       "bytes": 871778,
-      "sha256": "b54dced991fcbb7ef5dc457ea15da3a04041c1cf55e8e29e6d244be3ea0aae66",
-      "source_sha256": "b54dced991fcbb7ef5dc457ea15da3a04041c1cf55e8e29e6d244be3ea0aae66",
-      "transformation": "none",
+      "sha256": "f021606f38b89126d3557c7c276770fc23ddba3444ea4f65a25bf6b169d0ff9f",
+      "source_sha256": "f021606f38b89126d3557c7c276770fc23ddba3444ea4f65a25bf6b169d0ff9f",
+      "transformation": "Updated ranking LightGBM result or corresponding documentation; historical source mapping retained.",
       "rows": 81271,
       "columns": [
         "row_index",
         "true",
         "prediction"
-      ]
+      ],
+      "update_note": "2026-10-11: refresh ranking LightGBM on unchanged archived evaluation indices/labels; preserve other comparison results."
     },
     {
       "source": "data_s5b_model_comparisons.zip::ranking/LogisticRegression_predictions.csv",
@@ -746,10 +748,11 @@
     {
       "source": "data_s9b_comparison_parameters.zip::ranking/LGBMClassifier.json",
       "path": "data/comparison_parameters/ranking/LGBMClassifier.json",
-      "bytes": 738,
-      "sha256": "89be1bc8207174a0045c092683c3c1258c40f63c6d4026fd683d1d07271e9107",
-      "source_sha256": "17194669b437e0e1af6601cc14baebe2734871ba999e8c74bec582c31a13e918",
-      "transformation": "runtime warning logs omitted"
+      "bytes": 815,
+      "sha256": "8d6b7a68564d63990af0d6ef30689d63651748e89f2789b012faf082859503cb",
+      "source_sha256": "1c9e5bdb90d4a83261cfa59638897d765c04d8a71a71116723c172b6b8310d95",
+      "transformation": "Updated ranking LightGBM result or corresponding documentation; historical source mapping retained.",
+      "update_note": "2026-10-11: refresh ranking LightGBM on unchanged archived evaluation indices/labels; preserve other comparison results."
     },
     {
       "source": "data_s9b_comparison_parameters.zip::ranking/LogisticRegression.json",
@@ -770,10 +773,11 @@
     {
       "source": "data_s9b_comparison_parameters.zip::ranking/partition.json",
       "path": "data/comparison_parameters/ranking/partition.json",
-      "bytes": 417,
-      "sha256": "c59dbabfcf8ee046d6ee84734a8bf9c70a26f7a45116c2b17b89b6128a7a6c5a",
+      "bytes": 573,
+      "sha256": "254fa53cb72dbc30462df411e393d1b1ebd59a88f176a61bedb9360371a2a536",
       "source_sha256": "fd234d289c5d61755cb27c8ca0a503d3f5eceedf130ec43efd38cdfe8b2e9481",
-      "transformation": "JSON whitespace normalized"
+      "transformation": "Updated ranking LightGBM result or corresponding documentation; historical source mapping retained.",
+      "update_note": "2026-10-11: refresh ranking LightGBM on unchanged archived evaluation indices/labels; preserve other comparison results."
     },
     {
       "source": "data_s9b_comparison_parameters.zip::ranking/partition.npz",

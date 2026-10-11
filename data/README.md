@@ -38,7 +38,8 @@ reused instead of storing duplicate copies.
 
 [supplementary_manifest.json](supplementary_manifest.json) records file
 sizes, SHA-256 checksums, CSV columns and row counts, source mapping, and packaging
-transformations. CSV values are unchanged. The three original ZIP bundles are
+transformations. The ranking LightGBM metrics/predictions and regression ablation table have
+been updated; source provenance and current checksums are recorded in the manifest. The three original ZIP bundles are
 expanded into inspectable directories; bundled legacy scripts and redundant
 runtime configurations are excluded. Their old checksum lists are replaced by
 the manifest for the files actually published here.
@@ -49,5 +50,7 @@ supplied results. The supplementary manifest records dataset provenance.
 
 The Top21000 feature archive is included in `screening/`; its size and SHA-256
 checksum are recorded in the manifest. The approximately 7.6 GiB full candidate
-matrix required by the screening pipeline is distributed separately and remains
-excluded from Git.
+matrix required by the screening pipeline is generated locally by
+`python code/00_build_candidate_features.py` (see the root README for optional
+dependencies and hardware settings). It remains excluded from Git; its generated
+`.json` sidecar records row/feature alignment, model revision and checksums.

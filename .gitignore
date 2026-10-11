@@ -4,8 +4,10 @@ __pycache__/
 outputs/*
 !outputs/.gitkeep
 
-# Distributed separately; too large for ordinary Git storage.
+# Locally generated candidate features and model downloads.
 /data/prepared/candidate_feature_matrix.npy
+/data/prepared/candidate_feature_matrix.json
+/data/prepared/candidate_feature_matrix.npy.*.partial
 /data/external/
 
 # Local tooling and credentials.
